@@ -1,30 +1,36 @@
-console.log(`Desafio complementario Arrays Tema: To do App`);
+console.log(`Desafio Tema: To do App`);
 
-const actividades = [];
-let actividad;
+const botonAgregar = document.getElementById(`btn__agregar`);
 
-while (true) {
-    let ingresoActividad = prompt(`Desea ingresar una actividad?\n Ingrese SI para continuar o NO para cancelar`).toLowerCase();
-    if (ingresoActividad == `si`) {
-        actividad = prompt(`Qué actividad quieres incluir?`).toLowerCase();
-        actividades.push(actividad);
+botonAgregar.addEventListener(`click`, () => {
+    const input = document.getElementById(`input`);
+    const nuevaTarea = input.value;
+
+    if (nuevaTarea != "") {
+        const root = document.getElementById(`root`);
+        const nuevoDiv = document.createElement(`div`);
+        const nuevoSpan = document.createElement(`span`);
+        nuevoSpan.innerText = nuevaTarea;
+
+        root.appendChild(nuevoDiv);
+        nuevoDiv.appendChild(nuevoSpan);
+        nuevoDiv.className += "tarjeta__tareas d-flex justify-content-between align-items-center p-4 m-1 rounded-3";
+        nuevoDiv.appendChild(botonEliminar());
+        input.value = "";
     } else {
-        break;
+        alert("Por favor ingrese una tarea");
     }
-}
+});
 
-if (actividades.length > 0) {
-    let eliminarActividad = prompt(`Las actividades ingresadas son ${actividades}. Deseas eliminar alguna?\n Ingrese SI o NO`).toLowerCase();
+function botonEliminar() {
+    const nuevoBtn = document.createElement(`button`);
+    nuevoBtn.className += "btn-close";
 
-    if (eliminarActividad == `si`) {
-        const ActividadAEliminar = prompt(`Qué actividad quieres eliminar? ${actividades}\n Ingrese el nombre de la actividad`).toLowerCase();
-        const indiceActividadAEliminar = actividades.indexOf(ActividadAEliminar);
+    nuevoBtn.addEventListener(`click`, (e) => {
+        const divAEliminar = e.target.parentElement;
+        const root = document.getElementById(`root`);
 
-        actividades.splice(indiceActividadAEliminar, 1);
-        alert(`Las actividades a realizar son ${actividades}`);
-    } else {
-        alert(`Las actividades a realizar son ${actividades}`);
-    }
-} else {
-    alert(`No tienes actividades para realizar`);
+        root.removeChild(divAEliminar);
+    });
+    return nuevoBtn;
 }
